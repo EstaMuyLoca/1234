@@ -9,6 +9,7 @@ def listen_command():
             sr.adjust_for_ambient_noise(source=mic, duration=0.7)
             audio = sr.listen(source=mic)
             query = sr.recognize_google(audio_data= audio, language='ru-RU').lower()
+            return query
     except speech_recognition.UnknownValueError:
         return 'не понял'
 
