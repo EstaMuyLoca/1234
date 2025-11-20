@@ -1,4 +1,5 @@
-
+import os 
+import random
 import speech_recognition
 
 sr = speech_recognition.Recognizer()
@@ -21,10 +22,20 @@ def create_task():
         file.write(f'{query}\n')
     return f'задача {query} добавлена в todo-list'
 
+
+def play_music():
+    files = os.listdir('music')
+    random_file = f'music/{random.choice(files)}'
+    os.system(f'vlc-open {random_file}')
+
+    return f'dance {random_file.split("/")[-1]}'
+
 def main():
     query = listen_command()
     if query =='добавить задачу':
         print(create_task())
+    elif query =="включить музыку":
+        print(play_music())
     else:
         print(query)
 
