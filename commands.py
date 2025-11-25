@@ -5,7 +5,6 @@ engine = pyttsx3.init()
 engine.setProperty('rate', 180)
 
 def speaker(text):
-    engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
 
@@ -18,7 +17,7 @@ def game():
     #print("игра запущена")
 
 def offpc():
-    os.system('shotdown /s')
+    os.system('shutdown /s')
     #print("пк выключен")
 
 def weather():
