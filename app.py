@@ -9,7 +9,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 q = queue.Queue()
 
-model = vosk.Model('model_small')
+model = vosk.Model('vosk-model-small-ru-0.22')
 device = sd.default.device #sd.default.device = 1, 3 /////input, output[1, 4]
 samplerate = int(sd.query_devices(device[0], 'input')['default_samplerate'])
 
