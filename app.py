@@ -4,7 +4,7 @@ import sounddevice as sd
 import vosk
 import json
 import words 
-from skills import * 
+from commands import * 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 q = queue.Queue()
