@@ -1,35 +1,40 @@
-# открывает нужную папку
-
 import os
-import subprocess
 from pathlib import Path
 
-def open_path_by_name(base_folder: str, name: str):
-    base_path = Path(base_folder)
-    if not base_path.exists() or not base_path.is_dir():
-        print(f"Путь {base_folder} не существует или не является папкой.")
-        return
+def show_desktop_items():
+    """
+    Возвращает текст для озвучивания объектов на рабочем столе.
+    Вызывай voice.speaker(result) для голосового вывода.
+    """
+    desktop_path = Path.home() / "Desktop"
+    
+    speech_text = "Объекты на рабочем столе. "
+    
+    for item in sorted(desktop_path.iterdir()):
+        if item.is_dir():
+            speech_text += f"Папка {item.name}. "
+        elif item.is_file():
+            name_without_ext = item.stem
+            speech_text += f"Файл {name_without_ext}. "
+        else:
+            speech_text += f"{item.name}. "
+    
+    print("Объекты на рабочем столе:")
+    print("-" * 40)
+    for item in sorted(desktop_path.iterdir()):
+        if item.is_dir():
+            print(f"📁 Папка: {item.name}")
+        elif item.is_file():
+            name_without_ext = item.stem
+            print(f"📄 Файл: {name_without_ext}")
+        else:
+            print(f"🔗 {item.name}")
+    
+    return speech_text
 
-    # Поиск объекта по имени в указанной папке (без учета регистра)
-    for item in base_path.iterdir():
-        if item.name.lower() == name.lower():
-            # Открытие файла или папки средствами ОС Windows
-            try:
-                if item.is_dir():
-                    os.startfile(str(item))  # Открыть папку
-                elif item.is_file():
-                    os.startfile(str(item))  # Открыть файл с ассоциированной программой
-                else:
-                    print("Объект найден, но тип не поддерживается для открытия.")
-                print(f"Открыт объект: {item}")
-            except Exception as e:
-                print(f"Ошибка при открытии: {e}")
-            return
-
-    print(f"Объект с именем '{name}' не найден в папке {base_folder}")
-
-# Пример использования:
-folder = input("Введите путь к папке, где искать объект: ")
-filename = input("Введите имя файла или папки для открытия: ")
-
-open_path_by_name(folder, filename)
+# Пример использования с твоим voice.speaker
+if __name__ == "__main__":
+    result = show_desktop_items()
+    # voice.speaker(result)  # Раскомментируй для озвучивания
+    print("\nГотовый текст для voice.speaker:")
+    print(result)
