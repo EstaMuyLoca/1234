@@ -1,32 +1,6 @@
-import os, webbrowser, sys, requests, subprocess, voice, app
+import os
 from pathlib import Path
 
-
-def browser():
-    webbrowser.open('https://www.youtube.com', new =2)
-    #print('браузер запущен')
-
-def game():
-    subprocess.Popen('C:/Program Files')
-    #print("игра запущена")
-
-def offpc():
-    #os.system('shutdown /s')
-    print("пк выключен")
-
-def weather():
-    try:
-        params= {"q": "Kazan", "appid": '9e1551e8704efdd171e53c2db37c21c5',"units":"metric", "lang": "ru"} 
-        responce = requests.get(f"https://api.openweathermap.org/data/2.5/weather", params=params)
-        app.speaker(f"На улице {w['weather'][0]['description']} {round(w['main']['temp'])} градусов")
-        if not responce:
-            raise
-        w = responce.json()
-    except:
-        app.speaker('Произошла ошибка при попытке запроса к ресурсу API, проверь код')
-
-def offBot():
-    sys.exit()
 def show_desktop_items():
     """
     Возвращает текст для озвучивания объектов на рабочем столе.
@@ -56,10 +30,11 @@ def show_desktop_items():
         else:
             print(f"🔗 {item.name}")
     
-    app.speaker(speech_text)
-    
+    return speech_text
 
-
-
-def passive():
-    pass
+# Пример использования с твоим voice.speaker
+if __name__ == "__main__":
+    result = show_desktop_items()
+    # voice.speaker(result)  # Раскомментируй для озвучивания
+    print("\nГотовый текст для voice.speaker:")
+    print(result)
