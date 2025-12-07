@@ -10,7 +10,7 @@ model_en = 'silero_models/en/model.pt'
 
 device = torch.device('cpu')
 torch.set_num_threads(4)
-local_file = model_ru
+local_file = model_en
 
 if not os.path.isfile(local_file):
     torch.hub.download_url_to_file(models_urls[0],
