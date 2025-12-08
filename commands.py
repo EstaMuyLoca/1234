@@ -1,4 +1,4 @@
-import os, webbrowser, sys, requests, subprocess, voice, app
+import os, webbrowser, sys, requests, subprocess, voice
 from pathlib import Path
 
 
@@ -18,12 +18,12 @@ def weather():
     try:
         params= {"q": "Kazan", "appid": '9e1551e8704efdd171e53c2db37c21c5',"units":"metric", "lang": "ru"} 
         responce = requests.get(f"https://api.openweathermap.org/data/2.5/weather", params=params)
-        app.speaker(f"На улице {w['weather'][0]['description']} {round(w['main']['temp'])} градусов")
+        voice.speaker_silero(f"На улице {w['weather'][0]['description']} {round(w['main']['temp'])} градусов")
         if not responce:
             raise
         w = responce.json()
     except:
-        app.speaker('Произошла ошибка при попытке запроса к ресурсу API, проверь код')
+        voice.speaker_silero('Произошла ошибка при попытке запроса к ресурсу API, проверь код')
 
 def offBot():
     sys.exit()
@@ -56,7 +56,7 @@ def show_desktop_items():
         else:
             print(f"🔗 {item.name}")
     
-    app.speaker(speech_text)
+    voice.speaker_silero(speech_text)
     
 
 

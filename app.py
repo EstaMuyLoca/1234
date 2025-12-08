@@ -4,24 +4,22 @@ import sounddevice as sd
 import vosk
 import pyttsx3
 import json
-import words 
+import voice 
+import words
 from commands import * 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 q = queue.Queue()
 
 model = vosk.Model('vosk-model-small-ru-0.22')
-device = sd.default.device= 1, 4 #sd.default.device = 1, 3 /////input, output[1, 4]
-samplerate = int(sd.query_devices(device[0], 'input')['default_samplerate'])
+try:
 
-engine = pyttsx3.init()
-engine.setProperty('rate', 180)
+    device = sd.default.device= 1, 4 #sd.default.device = 1, 3 /////input, output[1, 4]
+    samplerate = int(sd.query_devices(device[0], 'input')['default_samplerate'])
+except:
+    voice.speaker_silero('Включи Микрофон')
+    sys.exit(1)
 
-
-def speaker(text):
-    engine.setProperty('voice', r'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_RU-RU_IRINA_11.0')
-    engine.say(text)
-    engine.runAndWait()
 
 def callback(indata, frames, time, status):
     q.put(bytes(indata))
@@ -29,16 +27,19 @@ def callback(indata, frames, time, status):
 
 def recognize(data, vectorizer, clf):
     trg = words.triggers.intersection(data.split())
+
     if not trg :
         return
-    
-    data = data.replace(list(trg)[0],'').strip()
+    data.replace(list(trg)[0], '')
+
+    #получаем вектор полученного текста
+    #сравниваем с вариантами, получая наиболее подходящий ответ
     text_vector = vectorizer.transform([data]).toarray()[0]
     answer = clf.predict([text_vector])[0]
     
     func_name = answer.split()[0]
-    speaker(answer.replace(func_name, ''))
-    exec(func_name + '()')
+    voice.speaker_silero(answer.replace(func_name, ''))
+    exec('commands.' + func_name + '()')
 
 
 def main():
