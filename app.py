@@ -14,7 +14,7 @@ q = queue.Queue()
 model = vosk.Model('vosk-model-small-ru-0.22')
 try:
 
-    device = sd.default.device= 1, 4 #sd.default.device = 1, 3 /////input, output[1, 4]
+    device = sd.default.device= 1, 3 #sd.default.device = 1, 3 /////input, output[1, 4]
     samplerate = int(sd.query_devices(device[0], 'input')['default_samplerate'])
 except:
     voice.speaker_silero('Включи Микрофон')
@@ -39,7 +39,7 @@ def recognize(data, vectorizer, clf):
     
     func_name = answer.split()[0]
     voice.speaker_silero(answer.replace(func_name, ''))
-    exec('commands.' + func_name + '()')
+    exec(func_name + '()')
 
 
 def main():
